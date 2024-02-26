@@ -1,0 +1,37 @@
+version: '3.8'
+
+services:
+  backend:
+    build: ./backend
+    volumes:
+      - db_volume:/backend/data
+      - static_volume:/backend/static
+      - media_volume:/backend/media
+    env_file:
+      - ./backend/.env
+
+  bot:
+    build: ./bot
+    env_file:
+      - ./bot/.env
+    volumes:
+        - bot_data_volume:/bot/bot_data
+    depends_on:
+      - backend
+
+  nginx:
+    image: nginx:1.25
+    volumes:
+      - ./nginx:/etc/nginx/conf.d
+      - static_volume:/app/static
+      - media_volume:/app/media
+    ports:
+      - 80:80
+    depends_on:
+      - backend
+
+volumes:
+  static_volume:
+  media_volume:
+  db_volume:
+  bot_data_volume:
