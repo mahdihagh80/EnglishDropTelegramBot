@@ -26,12 +26,12 @@ from telegram.ext import (
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> Action:
     query = update.callback_query
     if query:
-        await query.edit_message_text(text=vars.START, reply_markup=InlineKeyboardMarkup(main_keyboard))
+        await query.edit_message_text(text=vars.START, reply_markup=InlineKeyboardMarkup(main_keyboard), parse_mode=ParseMode.HTML)
         await query.answer()
         return Action.MAIN
 
     reply_markup = InlineKeyboardMarkup(main_keyboard)
-    await context.bot.send_message(text=vars.START,chat_id=update.effective_user.id, reply_markup=reply_markup)
+    await context.bot.send_message(text=vars.START,chat_id=update.effective_user.id, reply_markup=reply_markup, parse_mode=ParseMode.HTML)
     return Action.MAIN
 
 
@@ -132,7 +132,7 @@ async def alex_recommendation(update: Update, context: ContextTypes.DEFAULT_TYPE
     reply_markup = InlineKeyboardMarkup(keyboard)
     await context.bot.send_message(
         chat_id=update.effective_user.id,
-        text=vars.ALEX_RECOMANDATION.format(package_detail['title'], package_detail['description'], package_detail['price']),
+        text=vars.ALEX_RECOMANDATION.format(package_detail['title'], package_detail['description']),
         parse_mode=ParseMode.HTML
         )
     await context.bot.send_voice(chat_id=update.effective_user.id, voice=voice)
@@ -162,8 +162,8 @@ async def buy_package(update: Update, context: ContextTypes.DEFAULT_TYPE) -> Act
     
     keyboard = [[InlineKeyboardButton('منصرف شدم', callback_data='start')]]
     reply_markup = InlineKeyboardMarkup(keyboard)
-    msg = vars.TRANSACTION_DETAIL.format(package_detail['price'], bank_account['card_number'], bank_account['owner_name'])
-    await context.bot.send_message(text=msg, chat_id=update.effective_user.id, reply_markup=reply_markup)    
+    msg = vars.TRANSACTION_DETAIL.format(package_detail['price'], bank_account['owner_name'], bank_account['card_number'])
+    await context.bot.send_message(text=msg, chat_id=update.effective_user.id, reply_markup=reply_markup, parse_mode=ParseMode.HTML)    
     context.user_data['pending_transaction'] = {
         "bank_account": bank_account['id'],
         "package": package_detail['id'],
