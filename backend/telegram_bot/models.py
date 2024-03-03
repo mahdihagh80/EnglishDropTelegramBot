@@ -41,7 +41,7 @@ class Package(models.Model):
     title = models.CharField(max_length=255)
     voice = models.FileField(upload_to='packages/voices/', )
     description = models.TextField()
-    price = models.BigIntegerField()
+    price = models.CharField(max_length=255)
     telegram_channels = models.ManyToManyField(TelegramChannel)
     instagram_pages = models.ManyToManyField(InstagramPage)
     active = models.BooleanField(default=True)
@@ -68,7 +68,7 @@ class Transaction(models.Model):
 
     user = models.ForeignKey(TelegramUser, on_delete=models.RESTRICT)
     package = models.ForeignKey(Package, on_delete=models.RESTRICT)
-    package_price = models.BigIntegerField()
+    package_price = models.CharField(max_length=255)
     bank_account = models.ForeignKey(BankAccount, on_delete=models.RESTRICT)
     receipt = models.ImageField(upload_to='receipts/', null=True, blank=True)
     state = models.CharField(max_length=2, choices=TransactionState.choices, default=TransactionState.PENDING)
