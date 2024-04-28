@@ -213,7 +213,7 @@ async def submit_transaction(update: Update, context: ContextTypes.DEFAULT_TYPE)
 
     reply_markup = InlineKeyboardMarkup(main_keyboard)
     await context.bot.send_message(
-        text="خرید شما با موفقیت ثیت شد و پس از تایید لینک های مرتبط با دوره برای شما ارسال خواهد شد",
+        text="خرید شما با موفقیت ثبت شد و پس از تایید لینک های مرتبط با دوره برای شما ارسال خواهد شد",
         chat_id=update.effective_user.id,
         reply_markup=reply_markup,
     )
