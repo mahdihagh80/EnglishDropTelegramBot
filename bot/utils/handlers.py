@@ -11,6 +11,7 @@ from telegram import (
     InlineKeyboardMarkup,
     Update,
     ReplyKeyboardRemove,
+    Video,
 )
 
 from telegram.ext import (
@@ -135,7 +136,13 @@ async def alex_recommendation(update: Update, context: ContextTypes.DEFAULT_TYPE
         text=vars.ALEX_RECOMANDATION.format(package_detail['title'], package_detail['description']),
         parse_mode=ParseMode.HTML
         )
+    
     await context.bot.send_voice(chat_id=update.effective_user.id, voice=voice)
+
+    file_id = 'BAACAgQAAxkBAAMDZkd8JkvuUtJMmeKGqH8uCV4ZxsUAAnwXAAICSjFS0IepUlNZNpQ1BA'
+    file_unique_id = 'AgADfBcAAgJKMVI'
+    video = Video(file_id=file_id, file_unique_id=file_unique_id, width=848, height=464, duration=80)
+    await context.bot.send_video(chat_id=update.effective_user.id, video=video, caption='ویدیو نمونه دوره')
     await context.bot.send_message(chat_id=update.effective_user.id, text='گزینه موردنظر را انتخاب کنید', reply_markup=reply_markup)
     return Action.MAIN
 
